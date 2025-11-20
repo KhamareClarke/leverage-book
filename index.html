@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Leverage Journal™ - Master Edition</title>
+    <link rel="stylesheet" href="css/journal.css?v=2025111315">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Comprehensive Chrome extension error suppression
+        window.addEventListener('error', (event) => {
+            const message = event.message || '';
+            if (message.includes('listener indicated an asynchronous response') ||
+                message.includes('message channel closed') ||
+                message.includes('Extension context invalidated') ||
+                message.includes('chrome-extension://')) {
+                event.preventDefault();
+                event.stopPropagation();
+                return true;
+            }
+        });
+        
+        // Handle unhandled promise rejections from extensions
+        window.addEventListener('unhandledrejection', (event) => {
+            const reason = event.reason;
+            const message = (reason && reason.message) ? reason.message : String(reason);
+            if (message.includes('message channel closed') ||
+                message.includes('listener indicated an asynchronous response') ||
+                message.includes('chrome-extension://') ||
+                message.includes('Extension context invalidated')) {
+                event.preventDefault();
+                return true;
+            }
+        });
+        
+        // Override console.error for extension-related errors
+        const originalConsoleError = console.error;
+        console.error = function(...args) {
+            const message = args.join(' ');
+            if (message.includes('listener indicated an asynchronous response') ||
+                message.includes('message channel closed') ||
+                message.includes('chrome-extension://')) {
+                return; // Suppress extension errors
+            }
+            originalConsoleError.apply(console, args);
+        };
+    </script>
+</head>
+<body>
+
+<!-- ====================================== -->
+<!-- FRONT MATTER -->
+<!-- ====================================== -->
+
+<!-- PAGE 001: TITLE PAGE -->
+<div class="page title-page flex flex-col items-center justify-center">
+    <div class="crown-icon mb-8">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none">
+            <path d="M5 16L3 7L8.5 10L12 4L15.5 10L21 7L19 16H5Z" stroke="var(--gold)" stroke-width="2" fill="var(--gold)" opacity="0.1"/>
+        </svg>
+    </div>
+    
+    <h1 class="font-serif gold-gradient text-center mb-6" style="font-size: 4rem; line-height: 0.9; letter-spacing: -0.02em;">
+        THE<br>LEVERAGE<br>JOURNAL™
+    </h1>
+    
+    <div class="gold-line mb-8" style="width: 300px;"></div>
+    
+    <h2 class="text-center uppercase tracking-widest mb-6" style="color: var(--gray-light); font-size: 1.2rem; font-weight: 300;">
+        A 90-Day Blueprint for Success
+    </h2>
+    
+    <div class="subtitle gold-gradient font-semibold mb-12" style="font-size: 1.5rem; letter-spacing: 0.1em;">
+        PLAN • DO • ACHIEVE
+    </div>
+    
+    <div class="author-section text-center">
+        <p style="color: var(--gray); font-size: 1.1rem; margin-bottom: 0.5rem;">By</p>
+        <p class="gold-gradient font-semibold" style="font-size: 1.3rem;">KHAMARE CLARKE</p>
+    </div>
+    
+</div>
+
+<!-- PAGE 002: COPYRIGHT PAGE -->
+<div class="page copyright-page">
+    <div class="section-icon" style="margin-bottom: 0.5rem; margin-top: -0.5rem;">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
+            <!-- Detailed Eye Icon -->
+            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="var(--gold)" stroke-width="2" fill="none"/>
+            <circle cx="12" cy="12" r="4" stroke="var(--gold)" stroke-width="2" fill="none"/>
+            <circle cx="12" cy="12" r="2" fill="var(--gold)"/>
+        </svg>
+    </div>
+    
+    <h1 class="philosophy-title mb-8">Publishing Information</h1>
+    
+    <div class="copyright-content" style="line-height: 1.8; color: var(--gray-light);">
+        <p class="mb-6"><strong style="color: var(--gold);">The Leverage Journal™</strong><br>
+        A 90-Day Blueprint for Success</p>
+        
+        <p class="mb-6">Copyright © 2025 by Khamare Clarke<br>
+        All rights reserved.</p>
+        
+        <p class="mb-6">Published by <strong style="color: var(--gold);">Leverage House</strong><br>
+        First Edition, 2025</p>
+        
+        <p class="mb-6">No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the publisher, except in the case of brief quotations embodied in critical reviews and certain other noncommercial uses permitted by copyright law.</p>
+        
+        <p class="mb-6">For permission requests, write to the publisher at:<br>
+        <strong style="color: var(--gold);">contact@leveragejournal.com</strong></p>
+        
+        <p class="mb-6">Printed in UK</p>
+    </div>
+    
+    <div class="page-number">002</div>
+    <div class="footer-wisdom">"Excellence is never an accident." — Aristotle</div>
+</div>
+
+<!-- PAGE 003: DEDICATION -->
+<div class="page dedication-page flex flex-col items-center justify-center">
+    <div class="section-icon mb-8">
+        <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+            <!-- Empire Builder Crown - Enhanced with details -->
+            <path d="M20 70L15 40L30 50L50 20L70 50L85 40L80 70H20Z" stroke="black" stroke-width="2.5" fill="none"/>
+            <path d="M30 70L30 75M50 70L50 75M70 70L70 75" stroke="black" stroke-width="1.5"/>
+            <path d="M25 70L75 70" stroke="black" stroke-width="1.5"/>
+            
+            <!-- Crown Jewels -->
+            <circle cx="30" cy="45" r="2" fill="#333" stroke="black" stroke-width="0.5"/>
+            <circle cx="50" cy="30" r="2" fill="#333" stroke="black" stroke-width="0.5"/>
+            <circle cx="70" cy="45" r="2" fill="#333" stroke="black" stroke-width="0.5"/>
+            
+            <!-- Leverage Gears - Enhanced with teeth -->
+            <circle cx="35" cy="55" r="8" stroke="black" stroke-width="2" fill="none"/>
+            <path d="M35 47L35 43M39 51L43 49M39 59L43 61M35 63L35 67M31 59L27 61M31 51L27 49" stroke="black" stroke-width="1.5"/>
+            <circle cx="35" cy="55" r="3" stroke="black" stroke-width="1" fill="none"/>
+            
+            <circle cx="65" cy="55" r="8" stroke="black" stroke-width="2" fill="none"/>
+            <path d="M65 47L65 43M69 51L73 49M69 59L73 61M65 63L65 67M61 59L57 61M61 51L57 49" stroke="black" stroke-width="1.5"/>
+            <circle cx="65" cy="55" r="3" stroke="black" stroke-width="1" fill="none"/>
+            
+            <!-- Central Diamond -->
+            <path d="M50 45L55 50L50 55L45 50Z" fill="black" stroke="black" stroke-width="1"/>
+            
+            <!-- Connecting Lines (Systems) -->
+            <path d="M43 50L27 50M57 50L73 50" stroke="black" stroke-width="2"/>
+            
+            <!-- Foundation Base with detail -->
+            <rect x="25" y="75" width="50" height="4" fill="black" rx="2"/>
+            <path d="M30 75L30 79M40 75L40 79M50 75L50 79M60 75L60 79M70 75L70 79" stroke="#333" stroke-width="0.5"/>
+        </svg>
+    </div>
+    
+    <h1 class="font-serif text-center mb-8" style="font-size: 3rem; color: black;">DEDICATION</h1>
+    
+    <div class="mb-8" style="width: 200px; height: 2px; background: black; margin: 0 auto;"></div>
+    
+    <div class="dedication-text text-center" style="max-width: 500px; line-height: 1.8; color: black;">
+        <p class="mb-6" style="font-size: 1.2rem; color: black;">
+            To every ambitious individual who refuses to settle for ordinary.
+        </p>
+        
+        <p class="mb-6" style="color: black;">
+            To those who understand that success is not a destination, but a daily discipline.
+        </p>
+        
+        <p class="mb-6" style="color: black;">
+            To the visionaries who see systems where others see chaos, who find leverage where others find limitation.
+        </p>
+        
+        <p class="font-semibold" style="font-size: 1.1rem; color: black;">
+            This journal is your companion on the journey from dreamer to success story.
+        </p>
+    </div>
+    
+    <div class="page-number">003</div>
+</div>
+
+<!-- PAGE 004: WHY THIS JOURNAL EXISTS -->
+<div class="page" style="padding-top: 0;">
+    <div class="section-icon" style="margin-bottom: 0.5rem;">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="var(--gold)" stroke-width="2" fill="none"/>
+        </svg>
+    </div>
+    
+    <h1 class="philosophy-title" style="font-size: 2.3rem; margin-bottom: 0.3rem;">Why This Journal Exists</h1>
+    
+    <div class="gold-line" style="margin-bottom: 0.5rem;"></div>
+    
+    <div style="line-height: 1.5; color: var(--gray-light); margin-top: 0.5rem;">
+        <h2 class="gold-gradient" style="font-size: 1.4rem; font-weight: 600; margin-bottom: 0.3rem;">This Journal Is For The 8%</h2>
+        
+        <p style="font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+            92% of people abandon their goals. You're not them. You're the person who refuses mediocrity, who knows success is systematic, not accidental.
+        </p>
+        
+        <h3 class="gold-gradient" style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem;">What The Next 90 Days Will Deliver:</h3>
+        
+        <ul style="font-size: 0.85rem; line-height: 1.4; list-style: none; padding-left: 0; margin-bottom: 0.8rem;">
+            <li style="padding-left: 1.5rem; position: relative; margin-bottom: 0.2rem;">
+                <span style="position: absolute; left: 0; color: var(--gold);">•</span>
+                A proven system that transforms goals into daily execution
+            </li>
+            <li style="padding-left: 1.5rem; position: relative; margin-bottom: 0.2rem;">
+                <span style="position: absolute; left: 0; color: var(--gold);">•</span>
+                Unbreakable habits that compound into extraordinary results
+            </li>
+            <li style="padding-left: 1.5rem; position: relative; margin-bottom: 0.2rem;">
+                <span style="position: absolute; left: 0; color: var(--gold);">•</span>
+                Crystal clarity on your priorities and path to empire
+            </li>
+            <li style="padding-left: 1.5rem; position: relative; margin-bottom: 0.2rem;">
+                <span style="position: absolute; left: 0; color: var(--gold);">•</span>
+                The discipline framework that separates achievers from dreamers
+            </li>
+            <li style="padding-left: 1.5rem; position: relative; margin-bottom: 0.2rem;">
+                <span style="position: absolute; left: 0; color: var(--gold);">•</span>
+                Access to an elite community of verified high-performers
+            </li>
+        </ul>
+        
+        <h3 class="gold-gradient" style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem;">The Cost of Not Committing:</h3>
+        
+        <p style="font-size: 0.9rem;">
+            Every day without a system is a day lost to chaos. In 90 days, you'll either be celebrating transformation or explaining why you're in the same place. The choice is yours.
+        </p>
+    </div>
+    
+    <div class="page-number">004</div>
+    <div class="footer-wisdom">"The secret of getting ahead is getting started." — Mark Twain</div>
+</div>
+
+<!-- PAGE 005: VISION BOARD -->
+<div class="page">
+    <div class="section-icon" style="margin-bottom: 0.5rem; margin-top: -0.5rem;">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="3" width="20" height="16" rx="2" stroke="var(--gold)" stroke-width="2" fill="none"/>
+            <path d="M2 7H22M7 3V19M17 3V19" stroke="var(--gold)" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="2" fill="var(--gold)"/>
+        </svg>
+    </div>
+    
+    <h1 class="philosophy-title mb-8" style="font-size: 2.3rem;">Vision Board</h1>
+    
+    <div class="gold-line mb-10"></div>
+    
+    <p class="mb-8" style="font-size: 0.85rem; color: var(--gray-light); text-align: center;">
+        Visualize your success. Draw, paste, or write your vision elements.
+    </p>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+        <!-- Health & Energy -->
+        <div style="background: rgba(212, 175, 55, 0.05); border: 2px solid var(--gold); border-radius: 8px; padding: 1rem; min-height: 120px;">
+            <h3 class="gold-gradient mb-3" style="font-size: 0.9rem; font-weight: 600; text-align: center;">💪 Health & Energy</h3>
+            <div style="min-height: 80px; border-top: 1px dashed var(--gold); padding-top: 0.5rem;">
+                <!-- Space for user to write/draw -->
+            </div>
+        </div>
+        
+        <!-- Wealth & Career -->
+        <div style="background: rgba(212, 175, 55, 0.05); border: 2px solid var(--gold); border-radius: 8px; padding: 1rem; min-height: 120px;">
+            <h3 class="gold-gradient mb-3" style="font-size: 0.9rem; font-weight: 600; text-align: center;">💰 Wealth & Career</h3>
+            <div style="min-height: 80px; border-top: 1px dashed var(--gold); padding-top: 0.5rem;">
+                <!-- Space for user to write/draw -->
+            </div>
+        </div>
+        
+        <!-- Relationships -->
+        <div style="background: rgba(212, 175, 55, 0.05); border: 2px solid var(--gold); border-radius: 8px; padding: 1rem; min-height: 120px;">
+            <h3 class="gold-gradient mb-3" style="font-size: 0.9rem; font-weight: 600; text-align: center;">❤️ Relationships</h3>
+            <div style="min-height: 80px; border-top: 1px dashed var(--gold); padding-top: 0.5rem;">
+                <!-- Space for user to write/draw -->
+            </div>
+        </div>
+        
+        <!-- Personal Growth -->
+        <div style="background: rgba(212, 175, 55, 0.05); border: 2px solid var(--gold); border-radius: 8px; padding: 1rem; min-height: 120px;">
+            <h3 class="gold-gradient mb-3" style="font-size: 0.9rem; font-weight: 600; text-align: center;">🌱 Personal Growth</h3>
+            <div style="min-height: 80px; border-top: 1px dashed var(--gold); padding-top: 0.5rem;">
+                <!-- Space for user to write/draw -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-number">005</div>
+    <div class="footer-wisdom">"Time is the most valuable thing a man can spend." — Theophrastus</div>
+</div>
+
+<!-- PAGE 006: THE 3 ENEMIES OF EMPIRE -->
+<div class="page">
+    <div class="section-icon" style="margin-bottom: 0.5rem; margin-top: -0.5rem;">
+        <svg width="50" height="50" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="var(--gold)" stroke-width="2" fill="none"/>
+            <path d="M2 17L12 22L22 17" stroke="var(--gold)" stroke-width="2"/>
+            <path d="M2 12L12 17L22 12" stroke="var(--gold)" stroke-width="2"/>
+            <circle cx="12" cy="7" r="1.5" fill="var(--gold)"/>
+        </svg>
+    </div>
+    
+    <h1 class="philosophy-title" style="font-size: 1.8rem; margin: 0.3rem 0 0.5rem 0; line-height: 1.1;">The 3 Enemies of Success</h1>
+    
+    <div class="gold-line" style="margin: 0.2rem 0 0.6rem 0;"></div>
+    
+    <p style="font-size: 0.85rem; color: var(--gray-light); text-align: center; font-weight: 600; line-height: 1.2; margin: 0 0 0.8rem 0;">
+        Every successful individual faces 3 enemies. Master them, and you're unstoppable.<br>
+        Ignore them, and you join the 92%.
+    </p>
+    
+    <!-- Enemy #1: Laziness -->
+    <div style="background: rgba(212, 175, 55, 0.05); border-left: 4px solid var(--gold); padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 4px;">
+        <h3 class="gold-gradient" style="font-size: 1.1rem; font-weight: 700; margin: 0 0 0.3rem 0;">🐌 ENEMY #1: LAZINESS</h3>
+        <p style="font-size: 0.85rem; color: var(--gray-light); margin: 0 0 0.3rem 0; line-height: 1.3;">
+            Not dramatic failure just "tomorrow" repeated 1,000 times. The silent killer of dreams.
+        </p>
+        <div style="background: var(--black-soft); padding: 0.4rem; border-radius: 3px; margin-top: 0.4rem;">
+            <p style="font-size: 0.8rem; color: var(--gold-light); font-style: italic; margin: 0; line-height: 1.2;">
+                <strong>The Laziness Tax:</strong> Every day you delay costs you compound interest on your future. Day 1 delayed = 90 days of momentum lost forever.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Enemy #2: Disbelief -->
+    <div style="background: rgba(212, 175, 55, 0.05); border-left: 4px solid var(--gold); padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 4px;">
+        <h3 class="gold-gradient" style="font-size: 1rem; font-weight: 700; margin: 0 0 0.3rem 0;">🧠 ENEMY #2: DISBELIEF</h3>
+        <p style="font-size: 0.75rem; color: var(--gray-light); margin: 0 0 0.3rem 0; line-height: 1.3;">
+            "People like me don't achieve that." This lie has killed more dreams than failure ever will.
+        </p>
+        <div style="background: var(--black-soft); padding: 0.4rem; border-radius: 3px; margin-top: 0.4rem;">
+            <p style="font-size: 0.7rem; color: var(--gold-light); font-style: italic; margin: 0; line-height: 1.2;">
+                <strong>The Belief Gap:</strong> The distance between who you are and who you could be. This journal closes that gap, one day at a time.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Enemy #3: Self-Sabotage -->
+    <div style="background: rgba(212, 175, 55, 0.05); border-left: 4px solid var(--gold); padding: 0.5rem; margin-bottom: 0.5rem; border-radius: 4px;">
+        <h3 class="gold-gradient" style="font-size: 1rem; font-weight: 700; margin: 0 0 0.3rem 0;">💣 ENEMY #3: SELF-SABOTAGE</h3>
+        <p style="font-size: 0.75rem; color: var(--gray-light); margin: 0 0 0.3rem 0; line-height: 1.3;">
+            You get close to success, then unconsciously destroy it. Fear of success is real and deadly.
+        </p>
+        <div style="background: var(--black-soft); padding: 0.4rem; border-radius: 3px; margin-top: 0.4rem;">
+            <p style="font-size: 0.7rem; color: var(--gold-light); font-style: italic; margin: 0; line-height: 1.2;">
+                <strong>The Sabotage Pattern:</strong> Success → Fear → Self-destruction → "See, I knew I couldn't do it." We'll break this cycle together.
+            </p>
+        </div>
+    </div>
+    
+    <!-- The Weapon -->
+    <div style="background: var(--black-card); border: 2px solid var(--gold); padding: 0.6rem; border-radius: 6px; margin: 0.8rem 0 0.8rem 0; text-align: center;">
+        <p style="font-size: 0.8rem; color: var(--gold); font-weight: 600; margin: 0 0 0.2rem 0; line-height: 1.2;">
+            THIS JOURNAL IS YOUR WEAPON AGAINST ALL THREE.
+        </p>
+        <p style="font-size: 0.7rem; color: var(--gray-light); margin: 0; line-height: 1.2;">
+            Every page is designed to defeat laziness, build belief, and catch self-sabotage before it catches you.
+        </p>
+    </div>
+    
+    <div class="page-number">006</div>
+    <div class="footer-wisdom">"Know your enemy and yourself, win all battles." — Sun Tzu</div>
+</div>
+
+<!-- PAGE 007: TABLE OF CONTENTS -->
+<div class="page toc-page" style="padding-bottom: 40mm; padding-top: 2mm;">
+    <div class="section-icon" style="margin-bottom: 0.4rem; margin-top: 0;">
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="none">
+            <!-- Enhanced List Icon with Details -->
+            <rect x="1" y="3" width="22" height="18" rx="2" stroke="var(--gold)" stroke-width="1" fill="none"/>
+            <path d="M8 6H21M8 12H21M8 18H21" stroke="var(--gold)" stroke-width="2"/>
+            <!-- Detailed Bullets -->
+            <circle cx="4" cy="6" r="1.5" stroke="var(--gold)" stroke-width="1" fill="none"/>
+            <circle cx="4" cy="12" r="1.5" stroke="var(--gold)" stroke-width="1" fill="none"/>
+            <circle cx="4" cy="18" r="1.5" stroke="var(--gold)" stroke-width="1" fill="none"/>
+        </svg>
+    </div>
+    
+    <h1 class="philosophy-title mb-1" style="font-size: 1.6rem; margin-top: 0.5rem; color: var(--gold); text-align: center; letter-spacing: 0.05em; line-height: 1.1;">Table of Contents</h1>
+    
+    <div class="toc-content" style="line-height: 1.4; color: var(--gray-light); font-size: 0.9rem; margin-top: 0.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <!-- LEFT COLUMN -->
+        <div>
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">FRONT MATTER</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Why This Journal Exists <span class="page-ref">004</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Vision Board <span class="page-ref">005</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">⚡ The 3 Enemies <span class="page-ref">006</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">What Is The Leverage System <span class="page-ref">008</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Why Leverage Changes Everything <span class="page-ref">009</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">How to Use This Journal <span class="page-ref">010</span></div>
+            </div>
+            
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">CHAPTER 1 — VISION</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">The Law of Leverage <span class="page-ref">011</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Freedom Through Focus <span class="page-ref">012</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Goal Timeline Framework <span class="page-ref">013</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">My Vision & Why <span class="page-ref">014-017</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Steve Jobs Method <span class="page-ref">018</span></div>
+            </div>
+            
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">CHAPTER 2 — PLAN</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">The 7 Laws of Leverage <span class="page-ref">019</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Strategic Planning <span class="page-ref">020-026</span></div>
+            </div>
+            
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">INTEGRATED SYSTEMS</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">💪 Health & Wellness <span class="page-ref">Day 7</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">💰 Financial Success <span class="page-ref">Day 14</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">⏰ Productivity & Time <span class="page-ref">Day 21</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">🤝 Relationships <span class="page-ref">Day 35</span></div>
+            </div>
+        </div>
+        
+        <!-- RIGHT COLUMN -->
+        <div>
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">CHAPTER 3 — DO</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Daily Pages (Days 1-90) <span class="page-ref">027+</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Weekly Reviews <span class="page-ref">Every 7th</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">🎓 Skills & Learning <span class="page-ref">Day 42</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">🧠 Decision & Risk <span class="page-ref">Day 49</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">🎨 Creativity & Innovation <span class="page-ref">Day 63</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">🌟 Contribution & Legacy <span class="page-ref">Day 77</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Milestone Reviews <span class="page-ref">30,60,90</span></div>
+            </div>
+            
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">CHAPTER 4 — REVIEW</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">90-Day Transformation <span class="page-ref">171</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Progress Analytics <span class="page-ref">172-178</span></div>
+            </div>
+            
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">CHAPTER 5 — LEGACY</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">The Digital Alchemist <span class="page-ref">179</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Builder's Guild Invitation <span class="page-ref">180-188</span></div>
+            </div>
+            
+            <div class="toc-section mb-1">
+                <h3 class="gold-gradient mb-1" style="font-size: 1.1rem; margin-bottom: 0.2rem; letter-spacing: 0.05em; line-height: 1.2;">BACK MATTER</h3>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Credits & Contact <span class="page-ref">189</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Index <span class="page-ref">192</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Glossary <span class="page-ref">195</span></div>
+                <div class="toc-item" style="margin-bottom: 0.25rem; line-height: 1.4; font-size: 0.9rem;">Certificate <span class="page-ref">196</span></div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="page-number">007</div>
+</div>
+
+<!-- ====================================== -->
+<!-- FRONT MATTER CONTINUES -->
+<!-- ====================================== -->
+<!-- PAGE 008: INTRODUCTION - WHAT IS THE LEVERAGE SYSTEM -->
+<div class="page">
+    <div class="philosophy-section">
+        <h1 class="philosophy-title" style="color: var(--gold); font-size: 2rem; margin-bottom: 1.5rem; text-align: center;">What Is The Leverage System?</h1>
+        
+        <div class="philosophy-essay" style="color: var(--gray-light); line-height: 1.6; font-size: 0.8rem;">
+            <p style="margin-bottom: 1rem;"><span style="font-size: 2rem; float: left; line-height: 1.8rem; margin-right: 0.4rem; color: var(--gold);">L</span>everage is the art of achieving maximum results with minimum effort. It is the difference between working hard and working smart, between surviving and thriving, between dreaming and achieving extraordinary success.</p>
+            
+            <p style="margin-bottom: 1rem;">The Leverage System is a complete ecosystem that bridges the physical and digital worlds. This journal serves as your analog interface to digital intelligence, where every page connects to powerful app features that amplify your progress.</p>
+            
+            <div style="background: var(--black-card); padding: 1rem; border-radius: 6px; margin: 1.5rem 0; border-left: 3px solid var(--gold);">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 0.6rem; font-size: 0.85rem;">
+                    <div><strong style="color: var(--gold);">📖 JOURNAL</strong> = Mind Discipline</div>
+                    <div><strong style="color: var(--gold);">📱 APP</strong> = Data Intelligence</div>
+                    <div><strong style="color: var(--gold);">🤖 COPILOT</strong> = AI Accountability</div>
+                    <div><strong style="color: var(--gold);">👥 GUILD</strong> = Community Network</div>
+                </div>
+            </div>
+            
+            <p style="margin-bottom: 1rem; text-align: center; font-weight: bold; color: var(--gold);">Together, these create a lifestyle system that makes success systematic.</p>
+        </div>
+    </div>
+    
+    <div class="page-number">008</div>
+    <div class="footer-wisdom">"Knowledge is power." — Francis Bacon</div>
+</div>
+
+<!-- PAGE 009: PHILOSOPHY - WHY LEVERAGE CHANGES EVERYTHING -->
+<div class="page" style="padding-top: 0.5rem;">
+    <div class="philosophy-section" style="margin-top: 0;">
+        <h1 class="philosophy-title" style="color: var(--gold); font-size: 2rem; margin: 0 0 0.5rem 0; text-align: center; padding-top: 0;">Why Leverage Changes Everything</h1>
+        
+        <div class="philosophy-essay" style="color: var(--gray-light); line-height: 1.3; font-size: 0.8rem; margin-top: 0.5rem;">
+            <p style="margin: 0 0 0.5rem 0; line-height: 1.4;"><span style="font-size: 2rem; float: left; line-height: 1.4; margin-right: 0.4rem; color: var(--gold);">I</span>n 1665, Isaac Newton discovered that a small force at the right point could move the world. This principle of leverage extends far beyond physics it is the fundamental law of achievement.</p>
+            
+            <p style="margin: 0 0 0.5rem 0; line-height: 1.4;">Consider the most successful individuals. They achieved greatness by working smartest, not just hardest. Innovators leverage strategy. Visionaries leverage systems. Leaders leverage their unique strengths. Each found the right leverage points to create lasting impact.</p>
+            
+            <p style="margin: 0 0 0.2rem 0;">In your life, leverage appears in many forms:</p>
+            
+            <div style="background: var(--black-card); padding: 0.4rem; border-radius: 3px; margin: 0.2rem 0 0.3rem; border-left: 3px solid var(--gold);">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 0.2rem; font-size: 0.8rem;">
+                    <div><strong style="color: var(--gold);">Time:</strong> Systems that work while you sleep</div>
+                    <div><strong style="color: var(--gold);">Knowledge:</strong> Skills that compound over decades</div>
+                    <div><strong style="color: var(--gold);">Network:</strong> Relationships that open doors</div>
+                    <div><strong style="color: var(--gold);">Capital:</strong> Money that generates more money</div>
+                    <div><strong style="color: var(--gold);">Technology:</strong> Tools that amplify capabilities</div>
+                </div>
+            </div>
+            
+            <div style="background: var(--black-card); padding: 0.4rem; border-radius: 2px; margin: 0.3rem 0; border: 1px solid var(--gold-dark);">
+                <p style="color: var(--gold-light); font-style: italic; margin: 0; text-align: center; font-size: 0.8rem;"><strong>Reflection:</strong> Where could you apply more leverage for 10x results?</p>
+            </div>
+            
+            <p style="margin: 0.5rem 0 0 0; line-height: 1.4;">This journal teaches you to identify and create leverage. Each practice builds momentum. Each reflection deepens thinking. Each goal becomes a lever for the next level.</p>
+        </div>
+    </div>
+    
+    <div class="page-number">009</div>
+    <div class="footer-wisdom">"You become what you think about most." — Earl Nightingale</div>
+</div>
+
+<!-- PAGE 010: HOW TO USE THIS JOURNAL -->
+<div class="page" style="padding-top: 0;">
+    <div class="philosophy-section" style="margin: 0; padding: 0">
+        <h1 class="philosophy-title" style="color: var(--gold); font-size: 1.6rem; margin: 0 0 0.1rem 0; text-align: center; padding: 0; line-height: 1.1;">How to Use This Journal</h1>
+        
+        <div class="philosophy-essay" style="color: var(--gray-light); line-height: 1.1; font-size: 0.8rem; margin: 0; padding: 0">
+            <p style="margin: 0.1rem 0; font-weight: 600; color: var(--gold-light); line-height: 1.1;">This is not a typical journal. It is a systematic approach to transformation.</p>
+            <p style="margin: 0.1rem 0; line-height: 1.1;">Each section builds upon the previous, creating a compound effect that transforms ordinary effort into extraordinary results. Follow this sequence precisely.</p>
+            
+            <div style="background: var(--black-card); padding: 0.4rem 0.4rem 0.2rem; border-radius: 6px; margin: 0.2rem 0; border: 2px solid var(--gold)">
+                <h3 style="color: var(--gold); font-size: 0.8rem; margin: 0 0 0.2rem 0; text-align: center; line-height: 1.1;">THE 5-PHASE TRANSFORMATION SYSTEM</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr; gap: 0.1rem; font-size: 0.8rem; margin: 0; padding: 0">
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.3rem; border-radius: 4px;">
+                        <div><strong style="color: var(--gold);">📖 PHASE 1: VISION (010-017)</strong></div>
+                        <div style="color: var(--gray-light); margin: 0.1rem 0 0 0.5rem; line-height: 1.2">Define your empire. Clarify your why. Set the foundation for everything that follows.</div>
+                        <div style="color: var(--gold-light); margin: 0.1rem 0 0 0.5rem; font-size: 0.7rem; font-style: italic; line-height: 1.1">Complete before moving to Phase 2</div>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.3rem; border-radius: 4px;">
+                        <div><strong style="color: var(--gold);">🎯 PHASE 2: PLAN (018-025)</strong></div>
+                        <div style="color: var(--gray-light); margin: 0.1rem 0 0 0.5rem; line-height: 1.2">Transform vision into strategy. Create your roadmap. Apply the 7 Laws of Leverage.</div>
+                        <div style="color: var(--gold-light); margin: 0.1rem 0 0 0.5rem; font-size: 0.7rem; font-style: italic; line-height: 1.1">Your strategy determines your trajectory</div>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.3rem; border-radius: 4px;">
+                        <div><strong style="color: var(--gold);">⚡ PHASE 3: DO (026-170)</strong></div>
+                        <div style="color: var(--gray-light); margin: 0.1rem 0 0 0.5rem; line-height: 1.2">Execute daily. Track progress. Build momentum. Integrate 8 life systems at optimal moments.</div>
+                        <div style="color: var(--gold-light); margin: 0.1rem 0 0 0.5rem; font-size: 0.7rem; font-style: italic; line-height: 1.1">90 days of disciplined execution</div>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.3rem; border-radius: 4px;">
+                        <div><strong style="color: var(--gold);">🏆 PHASE 4: REVIEW (171-178)</strong></div>
+                        <div style="color: var(--gray-light); margin: 0.1rem 0 0 0.5rem; line-height: 1.2">Analyze results. Celebrate victories. Extract lessons. Measure transformation.</div>
+                        <div style="color: var(--gold-light); margin: 0.1rem 0 0 0.5rem; font-size: 0.7rem; font-style: italic; line-height: 1.1">Data drives improvement</div>
+                    </div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 0.3rem; border-radius: 4px;">
+                        <div><strong style="color: var(--gold);">👑 PHASE 5: LEGACY (179-196)</strong></div>
+                        <div style="color: var(--gray-light); margin: 0.1rem 0 0 0.5rem; line-height: 1.2">Preserve transformation. Join Builder's Guild. Become a Digital Alchemist.</div>
+                        <div style="color: var(--gold-light); margin: 0.1rem 0 0 0.5rem; font-size: 0.7rem; font-style: italic; line-height: 1.1">Your transformation inspires others</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 style="color: var(--gold); font-size: 0.8rem; margin: 0.3rem 0 0.2rem 0; text-align: center; line-height: 1.1;">DAILY PRACTICE PROTOCOL</h3>
+            
+            <div style="background: var(--black-soft); padding: 0.2rem; border-radius: 4px; margin: 0.1rem 0; border: 1px solid var(--gold)">
+                <div style="display: grid; grid-template-columns: 1fr; gap: 0; font-size: 0.8rem; margin: 0; padding: 0">
+                    <div style="display: flex; align-items: center; padding: 0.05rem 0; margin: 0">
+                        <div style="color: var(--gold); font-weight: bold; width: 3.5rem; font-size: 0.8rem">🌅 Morning:</div>
+                        <div style="color: var(--gray-light);">Review vision, set 3 priorities, visualize success</div>
+                    </div>
+                    <div style="display: flex; align-items: center; padding: 0.05rem 0; margin: 0">
+                        <div style="color: var(--gold); font-weight: bold; width: 3.5rem; font-size: 0.8rem">🌙 Evening:</div>
+                        <div style="color: var(--gray-light);">Reflect on progress, capture lessons, plan tomorrow</div>
+                    </div>
+                    <div style="display: flex; align-items: center; padding: 0.05rem 0; margin: 0">
+                        <div style="color: var(--gold); font-weight: bold; width: 3.5rem; font-size: 0.8rem">📅 Weekly:</div>
+                        <div style="color: var(--gray-light);">Deep review, strategic planning, course corrections</div>
+                    </div>
+                    <div style="display: flex; align-items: center; padding: 0.05rem 0; margin: 0">
+                        <div style="color: var(--gold); font-weight: bold; width: 3.5rem; font-size: 0.8rem">🎉 Monthly:</div>
+                        <div style="color: var(--gray-light);">Celebrate milestones, analyze patterns, upgrade systems</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: rgba(212, 175, 55, 0.05); padding: 0.2rem; border-radius: 4px; margin: 0.1rem 0 0 0; text-align: center">
+                <p style="color: var(--gold-light); font-size: 0.85rem; font-weight: 600; margin: 0.1rem 0 0 0; line-height: 1.2">⚡ CRITICAL SUCCESS FACTOR ⚡</p>
+                <p style="color: var(--gray-light); font-size: 0.8rem; margin: 0.1rem 0 0 0; line-height: 1.2">Consistency beats intensity. Small daily actions compound into massive results.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-number">010</div>
+    <div class="footer-wisdom">"A goal without a plan is just a wish." — Antoine de Saint-Exupéry</div>
+</div>
+
+<!-- DYNAMIC CONTENT PLACEHOLDER -->
+<!-- The rest of the journal will be generated by JavaScript -->
+<div id="journal-content"></div>
+
+<!-- External JavaScript removed - now using inline version above -->
+    <!-- FORCE BLACK AND WHITE STYLING - AGGRESSIVE -->
+    <script>
+    function forceBlackAndWhite() {
+        console.log('Starting CSS VARIABLE OVERRIDE approach...');
+        
+        // KEEP ORIGINAL CSS VARIABLES FOR COVERS - Only override for interior pages
+        console.log('Preserving original colors for covers, converting interior pages only');
+        
+        // FORCE A5 SIZE ON ALL PAGES
+        const allPages = document.querySelectorAll('.page');
+        allPages.forEach((page, index) => {
+            // A5 size: 148mm x 210mm
+            page.style.setProperty('width', '148mm', 'important');
+            page.style.setProperty('height', '210mm', 'important');
+            page.style.setProperty('min-height', '210mm', 'important');
+            page.style.setProperty('max-height', '210mm', 'important');
+            page.style.setProperty('box-sizing', 'border-box', 'important');
+            page.style.setProperty('padding', '12mm', 'important');
+            page.style.setProperty('margin', '1rem auto', 'important');
+            page.style.setProperty('display', 'flex', 'important');
+            page.style.setProperty('flex-direction', 'column', 'important');
+        });
+        
+        // Force ONLY interior pages (not covers) to white background with black text
+        const interiorPages = document.querySelectorAll('.page:not(.cover-page):not(.title-page)');
+        console.log('Found interior pages:', interiorPages.length);
+        
+        interiorPages.forEach((page, index) => {
+            page.style.setProperty('background', 'white', 'important');
+            page.style.setProperty('background-color', 'white', 'important');
+            page.style.setProperty('background-image', 'none', 'important');
+            
+            // Override CSS variables ONLY for this interior page
+            page.style.setProperty('--gold', 'black');
+            page.style.setProperty('--gold-light', 'black');
+            page.style.setProperty('--gold-dark', 'black');
+            page.style.setProperty('--gold-metallic', 'black');
+            page.style.setProperty('--black', 'white');
+            page.style.setProperty('--black-soft', '#f5f5f5');
+            page.style.setProperty('--black-card', '#f5f5f5');
+            page.style.setProperty('--gray', 'black');
+            page.style.setProperty('--gray-light', 'black');
+            page.style.setProperty('--gray-dark', 'black');
+            
+            // ULTRA AGGRESSIVE - Force every element in interior pages to black text
+            const allElements = page.querySelectorAll('*');
+            allElements.forEach(el => {
+                // Force black text on EVERYTHING
+                el.style.setProperty('color', 'black', 'important');
+                el.style.setProperty('fill', 'black', 'important'); // For SVG elements
+                
+                // Remove problematic classes
+                if (el.classList.contains('gold-gradient')) {
+                    el.classList.remove('gold-gradient');
+                }
+                
+                // Force white background unless it's a light grey container
+                const computedBg = window.getComputedStyle(el).backgroundColor;
+                if (computedBg && computedBg !== 'rgba(0, 0, 0, 0)' && computedBg !== 'transparent') {
+                    // Check if it's a light grey container we want to keep
+                    if (!computedBg.includes('245, 245, 245') && !computedBg.includes('240, 240, 240') && !computedBg.includes('248, 248, 248')) {
+                        el.style.setProperty('background', 'white', 'important');
+                        el.style.setProperty('background-color', 'white', 'important');
+                        el.style.setProperty('background-image', 'none', 'important');
+                    }
+                }
+                
+                // Special handling for text nodes and specific elements
+                if (el.nodeType === Node.ELEMENT_NODE) {
+                    // Force text color on all text-containing elements
+                    if (el.textContent && el.textContent.trim()) {
+                        el.style.setProperty('color', 'black', 'important');
+                        
+                        // Check for specific problematic text
+                        const text = el.textContent.trim();
+                        if (text.includes('Execute with precision') || 
+                            text.includes('Strategy is the foundation') ||
+                            text.includes('Define your targets')) {
+                            el.style.setProperty('color', 'black', 'important');
+                            el.style.setProperty('background', 'white', 'important');
+                            console.log(`Fixed invisible text: "${text.substring(0, 30)}..."`);
+                        }
+                    }
+                }
+            });
+            
+            console.log(`Interior page ${index}: Converted to black and white`);
+        });
+        
+        // Ensure covers keep their original styling
+        const covers = document.querySelectorAll('.page.cover-page, .page.title-page');
+        covers.forEach((cover, index) => {
+            console.log(`Cover ${index}: Preserving original colors`);
+            // Don't modify covers - let them keep original gold/black styling
+        });
+        
+        // FINAL SWEEP - Catch any remaining invisible text in interior pages
+        setTimeout(() => {
+            const allInteriorText = document.querySelectorAll('.page:not(.cover-page):not(.title-page) *');
+            allInteriorText.forEach(el => {
+                if (el.textContent && el.textContent.trim()) {
+                    const computedStyle = window.getComputedStyle(el);
+                    const textColor = computedStyle.color;
+                    
+                    // If text is white, light grey, or transparent, make it black
+                    if (textColor.includes('255, 255, 255') || 
+                        textColor.includes('rgba(255, 255, 255') ||
+                        textColor === 'white' ||
+                        textColor === 'transparent' ||
+                        textColor.includes('128, 128, 128') ||
+                        computedStyle.opacity === '0') {
+                        
+                        el.style.setProperty('color', 'black', 'important');
+                        el.style.setProperty('opacity', '1', 'important');
+                        console.log(`Final sweep: Fixed invisible text "${el.textContent.substring(0, 20)}..."`);
+                    }
+                }
+            });
+        }, 100);
+        
+        console.log('CSS variable override completed');
+    }
+    
+    // Run multiple times to catch dynamically generated content
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(forceBlackAndWhite, 500);
+    });
+
+console.log('✅ Script loader initialized - ' + new Date().toISOString());
+
+// PRODUCTION FIX: Use relative path and add multiple fallback mechanisms
+let scriptLoaded = false;
+
+// Attempt 1: Try relative path first
+const script1 = document.createElement('script');
+script1.src = 'js/journal-generator.js?v=' + Date.now();
+script1.onload = function() {
+    console.log('✅ Journal generator loaded successfully via relative path!');
+    scriptLoaded = true;
+};
+script1.onerror = function() {
+    console.error('❌ Relative path failed, trying absolute path...');
+    
+    // Attempt 2: Try absolute path as fallback
+    const script2 = document.createElement('script');
+    script2.src = '/js/journal-generator.js?v=' + Date.now();
+    script2.onload = function() {
+        console.log('✅ Journal generator loaded successfully via absolute path!');
+        scriptLoaded = true;
+    };
+    script2.onerror = function() {
+        console.error('❌ Both paths failed, trying GitHub raw URL...');
+        
+        // Attempt 3: Try loading from GitHub raw as last resort
+        const script3 = document.createElement('script');
+        script3.src = 'https://raw.githubusercontent.com/KhamareClarke/leverage/main/js/journal-generator.js?v=' + Date.now();
+        script3.onload = function() {
+            console.log('✅ Journal generator loaded successfully from GitHub!');
+            scriptLoaded = true;
+        };
+        script3.onerror = function() {
+            console.error('❌ CRITICAL: All loading attempts failed');
+            document.getElementById('journal-content').innerHTML = 
+                '<div style="background: #ff0000; color: white; padding: 40px; text-align: center; border-radius: 8px; margin: 20px;">' +
+                '<h2>⚠️ JavaScript Loading Failed</h2>' +
+                '<p>Unable to load the journal generator script.</p>' +
+                '<p>Attempted paths:</p>' +
+                '<ul style="text-align: left; display: inline-block;">' +
+                '<li>js/journal-generator.js (relative)</li>' +
+                '<li>/js/journal-generator.js (absolute)</li>' +
+                '<li>GitHub raw URL</li>' +
+                '</ul>' +
+                '<p><strong>Please check browser console for details.</strong></p>' +
+                '</div>';
+        };
+        document.head.appendChild(script3);
+    };
+    document.head.appendChild(script2);
+};
+document.head.appendChild(script1);
+
+// Verify script loaded after 3 seconds
+setTimeout(function() {
+    if (!scriptLoaded && typeof generateMasterJournal === 'undefined') {
+        console.error('❌ Script not loaded after 3 seconds, using stub functions');
+        // The stub functions below will be used as emergency fallback
+    }
+}, 3000);
+
+function generateMasterJournal() {
+    try {
+        console.log('Starting journal generation...');
+        
+        // Create a temporary container to hold all pages
+        const tempContainer = document.createElement('div');
+        
+        // Generate all sections in order with error checking
+        console.log('Generating Chapter 1 Vision...');
+        const chapter1 = generateChapter1Vision();
+        console.log('Generating Chapter 1 Vision Complete...');
+        const chapter1Complete = generateChapter1VisionComplete();
+        console.log('Generating Chapter 2 Plan...');
+        const chapter2 = generateChapter2Plan();
+        console.log('Generating Chapter 3 Do...');
+        const chapter3 = generateChapter3Do();
+        console.log('Generating Chapter 4 Review...');
+        const chapter4 = generateChapter4Review();
+        console.log('Generating Chapter 5 Legacy...');
+        const chapter5 = generateChapter5Legacy();
+        console.log('Generating Back Matter...');
+        const backMatter = generateBackMatter();
+        console.log('Generating Back Cover...');
+        const backCover = generateBackCover();
+        
+        tempContainer.innerHTML = 
+            chapter1 +
+            chapter1Complete +
+            chapter2 +
+            chapter3 +
+            chapter4 +
+            chapter5 +
+            backMatter +
+            backCover;
+        
+        // Get the main container
+        const mainContainer = document.getElementById('journal-content');
+        if (!mainContainer) {
+            console.error('Could not find journal-content element');
+            return;
+        }
+        
+        // Clear existing content and append new content
+        mainContainer.innerHTML = '';
+        while (tempContainer.firstChild) {
+            mainContainer.appendChild(tempContainer.firstChild);
+        }
+        
+        // Initialize interactive elements
+        initializeInteractiveElements();
+        
+        console.log('Journal content generated successfully - Total pages should be 131');
+        
+        // Count pages for verification
+        const pages = mainContainer.querySelectorAll('.page');
+        console.log(`Total pages generated: ${pages.length}`);
+        
+    } catch (error) {
+        console.error('Error generating journal:', error);
+    }
+}
+
+// CHAPTER 1 - VISION functions
+function generateChapter1Vision() {
+    return `
+    <!-- CHAPTER 1 DIVIDER -->
+    <div class="page chapter-divider flex flex-col items-center justify-center">
+        <div class="section-icon mb-8">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none">
+                <!-- Detailed Vision Eye Icon -->
+                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="var(--gold)" stroke-width="2" fill="none"/>
+                <circle cx="12" cy="12" r="4" stroke="var(--gold)" stroke-width="2" fill="none"/>
+                <circle cx="12" cy="12" r="2" fill="var(--gold)"/>
+                <!-- Vision rays -->
+                <path d="M12 2L12 6M12 18L12 22M22 12L18 12M6 12L2 12" stroke="var(--gold)" stroke-width="1" opacity="0.7"/>
+                <path d="M18.36 5.64L15.54 8.46M8.46 15.54L5.64 18.36M18.36 18.36L15.54 15.54M8.46 8.46L5.64 5.64" stroke="var(--gold)" stroke-width="1" opacity="0.5"/>
+            </svg>
+        </div>
+        
+        <h1 class="font-serif text-center gold-gradient mb-6" style="font-size: 4rem; line-height: 1;">
+            CHAPTER 1
+        </h1>
+        
+        <h2 class="text-center gold-gradient mb-8" style="font-size: 2.5rem; font-weight: 300;">
+            VISION
+        </h2>
+        
+        <div class="gold-line mb-8" style="width: 250px;"></div>
+        
+        <p class="text-center text-xl mb-8" style="color: var(--gray-light); line-height: 1.6; max-width: 500px;">
+            Every success begins with a vision.<br>
+            Every vision begins with clarity.<br>
+            <span class="gold-gradient font-semibold">Every clarity begins with focus.</span>
+        </p>
+        
+        <div class="qr-code" style="text-align: center; margin: 1rem 0;">
+            <div style="width: 80px; height: 80px; background: white; border: 2px solid var(--gold); margin: 0 auto; border-radius: 4px; padding: 4px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div style="width: 60px; height: 60px; background: white; border: 1px solid var(--gold); position: relative;">
+                    <!-- QR Code Corner Markers -->
+                    <div style="position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
+                    <div style="position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
+                    <div style="position: absolute; bottom: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
+                    <!-- Center Pattern -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
+                </div>
+            </div>
+            <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--gray-light);">
+                <strong style="color: var(--gold);">JOIN BUILDER'S GUILD</strong><br>
+                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNAL.COM/GUILD</code>
+            </div>
+        </div>
+        
+        <div class="page-number">007</div>
+    </div>`;
+}
+
+// Continue with other functions - this is just a partial implementation to test
+function generateChapter1VisionComplete() {
+    return `<div class="page"><h2>Chapter 1 Vision Complete</h2><div class="page-number">008</div></div>`;
+}
+
+function generateChapter2Plan() {
+    return `<div class="page"><h2>Chapter 2 Plan</h2><div class="page-number">016</div></div>`;
+}
+
+function generateChapter3Do() {
+    return `<div class="page"><h2>Chapter 3 Do</h2><div class="page-number">018</div></div>`;
+}
+
+function generateChapter4Review() {
+    return `<div class="page"><h2>Chapter 4 Review</h2><div class="page-number">121</div></div>`;
+}
+
+function generateChapter5Legacy() {
+    return `<div class="page"><h2>Chapter 5 Legacy</h2><div class="page-number">123</div></div>`;
+}
+
+function generateBackMatter() {
+    return `<div class="page"><h2>Back Matter</h2><div class="page-number">127</div></div>`;
+}
+
+function generateBackCover() {
+    return `<div class="page"><h2>Back Cover</h2><div class="page-number">129</div></div>`;
+}
+
+function initializeInteractiveElements() {
+    // Initialize any interactive components
+    console.log('Journal initialized');
+}
+</script>
+
+<!-- Journal Content Container -->
+<div id="journal-content"></div>
+
+<!-- Initialize the journal after the DOM is fully loaded -->
+<script>
+// Initialize when page loads - handle both cases (DOM ready or already loaded)
+function initializeJournal() {
+    console.log('🔄 Initializing journal generation...');
+    console.log('📊 Document readyState:', document.readyState);
+    
+    if (document.readyState === 'loading') {
+        // DOM hasn't finished loading yet
+        console.log('⏳ DOM still loading, waiting for DOMContentLoaded...');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ DOMContentLoaded fired, starting generation...');
+            generateMasterJournal();
+        });
+    } else {
+        // DOM is already loaded (interactive or complete)
+        console.log('✅ DOM already loaded, starting generation immediately...');
+        // Use setTimeout to ensure all other scripts have run
+        setTimeout(function() {
+            generateMasterJournal();
+        }, 100);
+    }
+}
+
+// Start initialization when the script loads
+initializeJournal();
+
+// Fallback check in case generation fails
+setTimeout(function() {
+    const journalContent = document.getElementById('journal-content');
+    if (journalContent) {
+        // Check if any pages were generated (not just daily pages)
+        const hasPages = journalContent.querySelectorAll('.page').length > 0;
+        const hasDailyPages = document.querySelector('.daily-page');
+        
+        // Only show error if NO content was generated at all
+        if (!hasPages && !hasDailyPages) {
+            console.error('JavaScript failed to load - pages not generated');
+            journalContent.innerHTML = '<div style="color: red; text-align: center; padding: 2rem; background: #ff000020; border: 2px solid red; border-radius: 8px;">Error: JavaScript file failed to load. Please refresh the page.<br><br><small>If this persists, check the browser console for details.</small></div>';
+        } else {
+            console.log('Journal generation appears successful. Pages found:', journalContent.querySelectorAll('.page').length);
+        }
+    }
+}, 10000); // 10 second timeout
+</script>
+</body>
+</html>
