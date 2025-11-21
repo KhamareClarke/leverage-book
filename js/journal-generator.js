@@ -136,45 +136,61 @@ async function generateMasterJournal() {
         console.log(' Chapter 1 Vision Complete');
         
         console.log(' Generating Chapter 1 Stories...');
-        const chapter1Stories = generateChapter1Stories();
+        const chapter1Stories = generateChapter1Stories(12);  // Start at page 12 (after divider on 011)
         console.log(' Chapter 1 Stories Complete');
         
-        const chapter1Complete = generateChapter1VisionComplete(10);  // Start at page 10
+        const chapter1Complete = generateChapter1VisionComplete(14);  // Start at page 14 (after stories on 012-013), generates 9 pages (14-22)
         console.log(' Chapter 1 Vision Complete section done');
         
         console.log(' Generating Chapter 2 Plan...');
-        const chapter2 = generateChapter2Plan();
+        const chapter2 = generateChapter2Plan(23);  // Start at page 23 (after Chapter 1 Vision Complete ends at 022)
         console.log(' Chapter 2 Plan Complete');
         
+        // Chapter 2 Plan has 3 pages (23-25), so Chapter 2 Stories starts at 26
+        const chapter2StoriesStartPage = 26;
         console.log(' Generating Chapter 2 Stories...');
-        const chapter2Stories = generateChapter2Stories();
+        const chapter2Stories = generateChapter2Stories(chapter2StoriesStartPage);  // Chapter 2 Stories: 2 pages (26-27)
         console.log(' Chapter 2 Stories Complete');
         
+        // Chapter 2 Stories has 2 pages (26-27), so Strategic Warfare starts at 28
+        const strategicWarfareStartPage = 28;
         console.log(' Generating Strategic Warfare Section...');
-        const strategicWarfare = generateStrategicWarfareSection();
+        const strategicWarfare = generateStrategicWarfareSection(strategicWarfareStartPage);  // Strategic Warfare: starts at 28
         console.log(' Strategic Warfare Complete');
         
+        // Strategic Warfare has 4 pages (28-31), so Chapter 3 starts at 32
+        const chapter3StartPage = strategicWarfareStartPage + 4; // Strategic Warfare: 4 pages
         console.log(' Generating Chapter 3 Do (this may take a moment - 90 pages)...');
-        const chapter3 = generateChapter3Do();
-        console.log(' Chapter 3 Do Complete');
+        const chapter3Result = generateChapter3Do(chapter3StartPage);  // Start at page 32 (after Strategic Warfare ends at 031)
+        const chapter3 = chapter3Result.html;
+        const chapter3EndPage = chapter3Result.finalPageNumber;
+        console.log(` Chapter 3 Do Complete (ends at page ${chapter3EndPage})`);
         
+        // Calculate where Chapter 4 should start (after Chapter 3 ends)
+        const chapter4StartPage = chapter3EndPage + 1;
         console.log(' Generating Chapter 4 Review...');
-        const chapter4 = generateChapter4Review();
+        const chapter4 = generateChapter4Review(chapter4StartPage);  // Chapter 4 Review starts after Chapter 3
         console.log(' Chapter 4 Review Complete');
         
+        // Chapter 4 Review has 2 pages, so Chapter 4 Stories starts 2 pages later
+        const chapter4StoriesStartPage = chapter4StartPage + 2;
         console.log(' Generating Chapter 4 Stories...');
-        const chapter4Stories = generateChapter4Stories();
+        const chapter4Stories = generateChapter4Stories(chapter4StoriesStartPage);  // Chapter 4 Stories: 2 pages
         console.log(' Chapter 4 Stories Complete');
         
+        // Chapter 4 Stories has 2 pages, so Chapter 5 starts 2 pages later
+        const chapter5StartPage = chapter4StoriesStartPage + 2;
         console.log(' Generating Chapter 5 Legacy...');
-        const chapter5 = generateChapter5Legacy();
+        const chapter5 = generateChapter5Legacy(chapter5StartPage);  // Chapter 5 Legacy: 4 pages
         console.log(' Chapter 5 Legacy Complete');
         
+        // Chapter 5 Legacy has 4 pages, so Chapter 5 Stories starts 4 pages later
+        const chapter5StoriesStartPage = chapter5StartPage + 4;
         console.log(' Generating Chapter 5 Stories...');
-        const chapter5Stories = generateChapter5Stories();
+        const chapter5Stories = generateChapter5Stories(chapter5StoriesStartPage);  // Chapter 5 Stories: 2 pages
         console.log(' Chapter 5 Stories Complete');
         
-        // NOTE: Systems are now integrated into daily pages at strategic days
+        // NOTE: Systems integrated into daily pages at strategic days:
         // Day 5: Emergency Protocol
         // Day 7: Mental Health Protocols
         // Day 10: Energy Management System
@@ -184,19 +200,24 @@ async function generateMasterJournal() {
         // Day 32: Relationship & Communication
         // Day 40: Skills & Learning Systems
         // Day 47: Decision-Making & Risk
-        // Day 55: Creativity & Innovation
-        // Day 77: Contribution & Legacy
+        // Creativity & Innovation and Contribution & Legacy appear at the end (after Chapter 5 Stories)
         
-        console.log(' Generating Creativity & Innovation (Page 135)...');
-        const creativitySystems = generateCreativityInnovation(135);
+        // Chapter 5 Stories has 2 pages, so Creativity & Innovation starts 2 pages later
+        const creativityStartPage = chapter5StoriesStartPage + 2;
+        console.log(' Generating Creativity & Innovation...');
+        const creativitySystems = generateCreativityInnovation(creativityStartPage);  // Creativity & Innovation: 2 pages
         console.log(' Creativity Systems Complete');
         
-        console.log(' Generating Contribution & Legacy (Page 136)...');
-        const contributionSystems = generateContributionLegacy(136);
+        // Creativity & Innovation has 2 pages, so Contribution & Legacy starts 2 pages later
+        const contributionStartPage = creativityStartPage + 2;
+        console.log(' Generating Contribution & Legacy...');
+        const contributionSystems = generateContributionLegacy(contributionStartPage);  // Contribution & Legacy: 2 pages
         console.log(' Contribution Systems Complete');
         
-        console.log(' Generating Back Matter (Pages 137-139)...');
-        const backMatter = generateBackMatter(137);
+        // Contribution & Legacy has 2 pages, so Back Matter starts 2 pages later
+        const backMatterStartPage = contributionStartPage + 2;
+        console.log(' Generating Back Matter...');
+        const backMatter = generateBackMatter(backMatterStartPage);  // Back Matter starts after Contribution ends
         console.log(' Back Matter Complete');
         console.log(' Generating Back Cover...');
         const backCover = generateBackCover();
@@ -209,8 +230,8 @@ async function generateMasterJournal() {
             chapter1Stories +      // Vision stories
             chapter1Complete +
             chapter2 +
-            strategicWarfare +     // Greene strategic enhancements
-            chapter2Stories +      // Planning stories
+            chapter2Stories +      // Planning stories (pages 023-024)
+            strategicWarfare +     // Greene strategic enhancements (pages 025-028)
             chapter3 +             // Chapter 3 already includes storytelling pages
             chapter4 +
             chapter4Stories +      // Review stories
@@ -496,27 +517,20 @@ function generateChapter1Vision() {
         
         <div class="qr-code" style="text-align: center; margin: 1rem 0;">
             <div style="width: 80px; height: 80px; background: white; border: 2px solid var(--gold); margin: 0 auto; border-radius: 4px; padding: 4px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div style="width: 60px; height: 60px; background: white; border: 1px solid var(--gold); position: relative;">
-                    <!-- QR Code Corner Markers -->
-                    <div style="position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; bottom: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <!-- Center Pattern -->
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                </div>
+                <img src="/leverage/qr-codes/qr-chapter1-goals.png" alt="Chapter 1 QR Code" loading="eager" style="width: 100%; height: 100%; object-fit: contain; border-radius: 2px;" />
             </div>
             <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--gray-light);">
-                <strong style="color: var(--gold);">JOIN BUILDER'S GUILD</strong><br>
-                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNAL.COM/GUILD</code>
+                <strong style="color: var(--gold);">ACCESS VISION BOARD</strong><br>
+                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNEL.VERCEL.APP/DASHBOARD/GOALS</code>
             </div>
         </div>
         
-        <div class="page-number">010</div>
+        <div class="page-number">011</div>
     </div>`;
 }
 
 // Continue Chapter 1 - VISION
-function generateChapter1VisionComplete(startPageNumber = 10) {
+function generateChapter1VisionComplete(startPageNumber = 12) {
     let currentPage = startPageNumber;
     return `
     <!-- MY WHY - PAGE 1: DEEPER & SURFACE WHY -->
@@ -559,7 +573,7 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
         </div>
         
         <div class="footer-wisdom" style="margin-top: 0.3rem; font-size: 0.75rem;">Your why is your compass in the storm.</div>
-        <div class="page-number">10</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
 
     <!-- MY WHY - PAGE 2: CORE WHY & COST OF INACTION -->
@@ -594,7 +608,7 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
         </div>
         
         <div class="footer-wisdom">Face your fears to find your power.</div>
-        <div class="page-number">${currentPage++}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
 
     <!-- MY WHY - PAGE 3: DEATHBED REGRET & MENTORS -->
@@ -627,10 +641,10 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
         </div>
         
         <div class="footer-wisdom">Your mentors light the path ahead.</div>
-        <div class="page-number">${currentPage++}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
-    <!-- PAGE 009: FREEDOM THROUGH FOCUS -->
+    <!-- FREEDOM THROUGH FOCUS -->
     <div class="page">
         <div class="philosophy-section">
             <h1 class="philosophy-title">Freedom Through Focus</h1>
@@ -666,11 +680,11 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
             </div>
         </div>
         
-        <div class="page-number">${currentPage++}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom">"Focus is knowing what to ignore." - Khamare Clarke</div>
     </div>
     
-    <!-- PAGE 010: GOAL TIMELINE FRAMEWORK -->
+    <!-- GOAL TIMELINE FRAMEWORK -->
     <div class="page" style="padding-top: 0;">
         <h1 class="text-center gold-gradient mb-1" style="font-size: 1.4rem; margin-top: 0;">GOAL TIMELINE FRAMEWORK</h1>
         <div class="gold-line" style="margin-bottom: 0.1rem;"></div>
@@ -734,11 +748,11 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
             </div>
         </div>
         
-        <div class="page-number">022</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.75rem;">"A goal without a timeline is a wish." - Khamare Clarke</div>
     </div>
     
-    <!-- PAGE 011: TACTICAL EXECUTION FRAMEWORK -->
+    <!-- TACTICAL EXECUTION FRAMEWORK -->
     <div class="page" style="padding-top: 0; margin-top: -0.5rem;">
         <h1 class="text-center gold-gradient" style="font-size: 1.6rem; margin: 0 0 0.05rem 0;">TACTICAL EXECUTION</h1>
         <div class="gold-line" style="margin-bottom: 0.1rem;"></div>
@@ -845,11 +859,11 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
             </div>
         </div>
         
-        <div class="page-number" style="margin-top: -0.3rem;">014</div>
+        <div class="page-number" style="margin-top: -0.3rem;">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="margin-top: -0.2rem;">"Execute your vision." - Thomas Edison</div>
     </div>
     
-    <!-- PAGE 012: MY COMMITMENT -->
+    <!-- MY COMMITMENT -->
     <div class="page">
         <h1 class="text-center gold-gradient mb-4" style="font-size: 1.8rem;">MY COMMITMENT</h1>
         <div class="gold-line" style="margin-bottom: 0.75rem;"></div>
@@ -892,11 +906,11 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
             </div>
         </div>
         
-        <div class="page-number">015</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.75rem;">"Commitment creates accomplishment." - Khamare Clarke</div>
     </div>
     
-    <!-- PAGE 013: MY VISION -->
+    <!-- MY VISION -->
     <div class="page">
         <h1 class="text-center gold-gradient mb-4" style="font-size: 1.8rem;">MY VISION</h1>
         <div class="gold-line" style="margin-bottom: 0.75rem;"></div>
@@ -944,12 +958,12 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
             </div>
         </div>
         
-        <div class="page-number">007</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.75rem;">"Vision requires action." - Joel A. Barker</div>
     </div>
     
     
-    <!-- PAGE 016: THE SUCCESS STORY (STORYTELLING PAGE) -->
+    <!-- THE SUCCESS STORY (STORYTELLING PAGE) -->
     <div class="page" style="padding-top: 0.25rem;">
         <h1 class="text-center gold-gradient mb-1" style="font-size: 1.9rem; margin: 0;">THE SUCCESS STORY</h1>
         <div class="gold-line" style="margin: 0.25rem 0;"></div>
@@ -1000,13 +1014,14 @@ function generateChapter1VisionComplete(startPageNumber = 10) {
             </div>
         </div>
         
-        <div class="page-number">019</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.75rem;">"The cave you fear holds the treasure." - Joseph Campbell</div>
     </div>`;
 }
 
 // CHAPTER 2 - PLAN
-function generateChapter2Plan() {
+function generateChapter2Plan(startPageNumber = 20) {
+    let currentPage = startPageNumber;
     return `
     <!-- CHAPTER 2 DIVIDER -->
     <div class="page chapter-divider flex flex-col items-center justify-center">
@@ -1041,25 +1056,18 @@ function generateChapter2Plan() {
         
         <div class="qr-code" style="text-align: center; margin: 1rem 0;">
             <div style="width: 80px; height: 80px; background: white; border: 2px solid var(--gold); margin: 0 auto; border-radius: 4px; padding: 4px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div style="width: 60px; height: 60px; background: white; border: 1px solid var(--gold); position: relative;">
-                    <!-- QR Code Corner Markers -->
-                    <div style="position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; bottom: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <!-- Center Pattern -->
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                </div>
+                <img src="/leverage/qr-codes/qr-chapter2-daily.png" alt="Chapter 2 QR Code" loading="eager" style="width: 100%; height: 100%; object-fit: contain; border-radius: 2px;" />
             </div>
             <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--gray-light);">
                 <strong style="color: var(--gold);">ACCESS PLAN DASHBOARD</strong><br>
-                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNAL.COM/PLAN</code>
+                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNEL.VERCEL.APP/DASHBOARD/DAILY</code>
             </div>
         </div>
         
-        <div class="page-number">010</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
-    <!-- PAGE 017: THE 7 LAWS OF LEVERAGE -->
+    <!-- THE 7 LAWS OF LEVERAGE -->
     <div class="page" style="padding: 5mm;">
         <h1 class="text-center mb-1" style="font-size: 2.2rem; color: black;">The 7 Laws of Leverage</h1>
         <div class="gold-line" style="margin-bottom: 0.2rem;"></div>
@@ -1103,11 +1111,11 @@ function generateChapter2Plan() {
             </div>
         </div>
         
-        <div class="page-number">017</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom">"Be like water." - Bruce Lee</div>
     </div>
     
-    <!-- PAGE 018: PROPRIETARY FRAMEWORKS -->
+    <!-- PROPRIETARY FRAMEWORKS -->
     <div class="page" style="padding: 2mm 5mm 5mm 5mm;">
         <h1 class="text-center gold-gradient mb-4" style="font-size: 1.5rem; margin: 0 0 0.3rem 0;">Proprietary Frameworks</h1>
         <div class="gold-line" style="margin-bottom: 0.4rem;"></div>
@@ -1191,7 +1199,7 @@ function generateChapter2Plan() {
             </div>
         </div>
         
-        <div class="page-number" style="font-size: 0.7rem;">021</div>
+        <div class="page-number" style="font-size: 0.7rem;">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.65rem;">"Systems are the secret to success." - Khamare Clarke</div>
     </div>`;
 }
@@ -1318,7 +1326,8 @@ function getWeeklyQuote(week) {
     
     return weeklyQuotes[(week - 1) % weeklyQuotes.length];
 }
-function generateChapter3Do() {
+function generateChapter3Do(startPageNumber = 29) {
+    let currentPage = startPageNumber;
     let html = `
     <!-- CHAPTER 3 DIVIDER -->
     <div class="page chapter-divider flex flex-col items-center" style="padding: 0 0 0.25rem;">
@@ -1378,24 +1387,11 @@ function generateChapter3Do() {
             <div style="display: flex; flex-direction: column; align-items: center; gap: 0.3rem;">
                 <!-- QR Code -->
                 <div style="background: white; padding: 0.3rem; border-radius: 4px; border: 1px solid var(--gold);">
-                    <svg width="60" height="60" viewBox="0 0 100 100">
-                        <rect width="100" height="100" fill="white"/>
-                        <g transform="translate(10,10) scale(0.75)">
-                            <!-- QR Code for leveragejournal.com/daily -->
-                            <path d="M0 0h7v7h-7z M9 0h7v7h-7z M0 9h7v7h-7z M93 0h7v7h-7z M102 0h7v7h-7z M93 9h7v7h-7z M0 93h7v7h-7z M9 93h7v7h-7z M0 102h7v7h-7z" fill="black"/>
-                            <path d="M16 6h3v3h-3z M22 6h3v3h-3z M28 6h3v3h-3z M34 6h3v3h-3z M40 6h3v3h-3z M46 6h3v3h-3z" fill="black"/>
-                            <path d="M16 16h3v3h-3z M22 16h3v3h-3z M28 16h3v3h-3z M34 16h3v3h-3z M40 16h3v3h-3z M46 16h3v3h-3z" fill="black"/>
-                            <path d="M16 22h3v3h-3z M28 22h3v3h-3z M34 22h3v3h-3z M40 22h3v3h-3z" fill="black"/>
-                            <path d="M22 28h3v3h-3z M28 28h3v3h-3z M34 28h3v3h-3z M46 28h3v3h-3z" fill="black"/>
-                            <path d="M16 34h3v3h-3z M22 34h3v3h-3z M34 34h3v3h-3z M40 34h3v3h-3z" fill="black"/>
-                            <path d="M16 40h3v3h-3z M28 40h3v3h-3z M34 40h3v3h-3z M46 40h3v3h-3z" fill="black"/>
-                            <path d="M22 46h3v3h-3z M28 46h3v3h-3z M40 46h3v3h-3z M46 46h3v3h-3z" fill="black"/>
-                        </g>
-                    </svg>
+                    <img src="/leverage/qr-codes/qr-chapter3-dashboard.png" alt="Chapter 3 QR Code" loading="eager" style="width: 60px; height: 60px; object-fit: contain;" />
                 </div>
                 
                 <!-- URL Link -->
-                <a href="https://leveragejournal.com/daily" target="_blank" 
+                <a href="https://leveragejournel.vercel.app/dashboard" target="_blank" 
                    style="color: var(--gold); 
                           font-size: 0.8rem; 
                           text-decoration: none; 
@@ -1405,18 +1401,18 @@ function generateChapter3Do() {
                           border-radius: 3px; 
                           border: 1px solid var(--gold);
                           display: inline-block;">
-                    leveragejournal.com/daily
+                    leveragejournel.vercel.app/dashboard
                 </a>
                 
                 <!-- Instructions -->
                 <p style="color: var(--gray-light); font-size: 0.7rem; margin: 0; max-width: 200px; line-height: 1.2;">
-                    Scan or click to access your daily tracking tools
+                    Scan or click to sync with AI CoPilot
                 </p>
             </div>
         </div>
         </div>
         
-        <div class="page-number">026</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
     
     // Generate ALL 90 unique daily pages with distinct quotes
@@ -1531,8 +1527,8 @@ function generateChapter3Do() {
     ];
     
     // Generate ALL 90 daily pages
-    // Starting after Front Matter (010) + Chapter 1 (011-018) + Chapter 2 (019-026)
-    let currentPageNumber = 27;
+    // Starting after Chapter 3 Divider
+    let currentPageNumber = currentPage;
     for (let day = 1; day <= 90; day++) {
         // Ensure we have a valid quote, use fallback if missing
         let quote = uniqueQuotes[day - 1];
@@ -1598,7 +1594,7 @@ function generateChapter3Do() {
             html += generateMentalHealthProtocols(currentPageNumber);
             currentPageNumber++;
         } else if (day === 22) {
-            html += generateFinancialSuccessSystems(60); // Financial system starts at page 60
+            html += generateFinancialSuccessSystems(currentPageNumber); // Financial system uses current page number
             currentPageNumber += 3; // Financial system has 3 pages
         } else if (day === 25) {
             html += generateProductivityTimeMastery(currentPageNumber);
@@ -1616,23 +1612,20 @@ function generateChapter3Do() {
             currentPageNumber += 2; // Decision system has 2 pages
         }
         // Acceleration Phase (Days 61-90) - Advanced mastery
-        else if (day === 55) {
-            html += generateCreativityInnovation(currentPageNumber);
-            currentPageNumber += 2; // Creativity system has 2 pages
-        } else if (day === 77) {
-            html += generateContributionLegacy(currentPageNumber);
-            currentPageNumber += 2; // Legacy system has 2 pages
-        }
+        // Note: Creativity & Innovation and Contribution & Legacy are now at the end of the journal
+        // (after Chapter 5 Stories), not during daily pages
         
         // Add Storytelling pages every 5 working days (but not on system days)
-        const systemDays = [5, 10, 18, 25, 32, 40, 47, 55, 77];
+        // Note: Day 55 and 77 are removed since Creativity & Innovation and Contribution & Legacy are now at the end
+        const systemDays = [5, 7, 10, 15, 22, 25, 32, 40, 47];
         if (day % 5 === 0 && !systemDays.includes(day)) {
             html += generateChapter3Stories(currentPageNumber, day);
             currentPageNumber++;
         }
     }
     
-    return html;
+    // Return both HTML and the final page number
+    return { html, finalPageNumber: currentPageNumber - 1 };
 }
 
 function generateDailyPage(day, quote, pageNumber) {
@@ -2247,7 +2240,8 @@ function generateBuilderSpotlight(day, pageNumber) {
 }
 
 // CHAPTER 4 - REVIEW
-function generateChapter4Review() {
+function generateChapter4Review(startPageNumber = 120) {
+    let currentPage = startPageNumber;
     return `
     <!-- CHAPTER 4 DIVIDER -->
     <div class="page chapter-divider flex flex-col items-center justify-center">
@@ -2280,25 +2274,18 @@ function generateChapter4Review() {
         
         <div class="qr-code" style="text-align: center; margin: 1rem 0;">
             <div style="width: 80px; height: 80px; background: white; border: 2px solid var(--gold); margin: 0 auto; border-radius: 4px; padding: 4px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div style="width: 60px; height: 60px; background: white; border: 1px solid var(--gold); position: relative;">
-                    <!-- QR Code Corner Markers -->
-                    <div style="position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; bottom: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <!-- Center Pattern -->
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                </div>
+                <img src="/leverage/qr-codes/qr-chapter4-stats.png" alt="Chapter 4 QR Code" loading="eager" style="width: 100%; height: 100%; object-fit: contain; border-radius: 2px;" />
             </div>
             <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--gray-light);">
                 <strong style="color: var(--gold);">ACCESS PROGRESS ANALYTICS</strong><br>
-                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNAL.COM/PROGRESS</code>
+                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNEL.VERCEL.APP/DASHBOARD?TAB=STATS</code>
             </div>
         </div>
         
-        <div class="page-number">120</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
-    <!-- PAGE 122: PROGRESS ANALYTICS -->
+    <!-- PROGRESS ANALYTICS -->
     <div class="page" style="padding-bottom: 10mm; padding-top: 0;">
         <h1 class="text-center gold-gradient mb-0" style="font-size: 1.5rem; margin-top: 0.2rem;">PROGRESS ANALYTICS</h1>
         <div class="gold-line mb-0"></div>
@@ -2351,13 +2338,14 @@ function generateChapter4Review() {
             </div>
         </div>
         
-        <div class="page-number">121</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.65rem;">"Enter the cave you fear." - Joseph Campbell</div>
     </div>`;
 }
 
 // CHAPTER 5 - LEGACY
-function generateChapter5Legacy() {
+function generateChapter5Legacy(startPageNumber = 126) {
+    let currentPage = startPageNumber;
     return `
     <!-- CHAPTER 5 DIVIDER -->
     <div class="page chapter-divider flex flex-col items-center justify-center">
@@ -2388,25 +2376,18 @@ function generateChapter5Legacy() {
         
         <div class="qr-code" style="text-align: center; margin: 1rem 0;">
             <div style="width: 80px; height: 80px; background: white; border: 2px solid var(--gold); margin: 0 auto; border-radius: 4px; padding: 4px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                <div style="width: 60px; height: 60px; background: white; border: 1px solid var(--gold); position: relative;">
-                    <!-- QR Code Corner Markers -->
-                    <div style="position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; top: 4px; right: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <div style="position: absolute; bottom: 4px; left: 4px; width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                    <!-- Center Pattern -->
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; border: 2px solid var(--gold);"></div>
-                </div>
+                <img src="/leverage/qr-codes/qr-chapter5-dashboard.png" alt="Chapter 5 QR Code" loading="eager" style="width: 100%; height: 100%; object-fit: contain; border-radius: 2px;" />
             </div>
             <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--gray-light);">
                 <strong style="color: var(--gold);">JOIN BUILDER'S GUILD</strong><br>
-                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNAL.COM/GUILD</code>
+                <code style="font-family: monospace; font-size: 0.7rem;">HTTPS://LEVERAGEJOURNEL.VERCEL.APP/DASHBOARD</code>
             </div>
         </div>
         
-        <div class="page-number">122</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
-    <!-- PAGE 124: THE DIGITAL ALCHEMIST -->
+    <!-- THE DIGITAL ALCHEMIST -->
     <div class="page" style="padding-bottom: 50mm; padding-top: -5mm;">
         <div class="philosophy-section" style="padding: 0.5rem; padding-bottom: 1.5rem; margin-top: -1rem;">
             <h1 class="philosophy-title" style="font-size: 1.7rem; margin-bottom: 0.5rem;">The Digital Alchemist</h1>
@@ -2436,11 +2417,11 @@ function generateChapter5Legacy() {
             </div>
         </div>
         
-        <div class="page-number">123</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.8rem;">"An army of sheep led by a lion." - Alexander the Great</div>
     </div>
     
-    <!-- PAGE 135: CERTIFICATE OF COMPLETION -->
+    <!-- CERTIFICATE OF COMPLETION -->
     <div class="page certificate-page flex flex-col items-center justify-center">
         <div class="certificate-border" style="border: 3px solid var(--gold); padding: 1.5rem; border-radius: 15px; text-align: center; max-width: 500px;">
             <div class="crown-icon" style="margin-bottom: 0.5rem;">
@@ -2494,10 +2475,10 @@ function generateChapter5Legacy() {
             "You are now a certified Digital Alchemist."
         </p>
         
-        <div class="page-number">124</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
-    <!-- PAGE 136: BUILDER'S GUILD INVITATION -->
+    <!-- BUILDER'S GUILD INVITATION -->
     <div class="page flex flex-col items-center justify-center">
         <div class="guild-invitation" style="text-align: center; max-width: 500px;">
             <div class="guild-icon mb-4">
@@ -2623,7 +2604,7 @@ function generateChapter5Legacy() {
             </p>
         </div>
         
-        <div class="page-number">125</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
         <div class="footer-wisdom" style="font-size: 0.75rem;">"Trust to discover trust." - Ernest Hemingway</div>
     </div>`;
 }
@@ -3413,7 +3394,7 @@ function generateFinancialSuccessSystems(startPageNumber = 60) {
         </div>
         
         <div class="footer-wisdom">The habit of saving is itself an education.</div>
-        <div class="page-number">060</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- INVESTMENT STRATEGY -->
@@ -3454,7 +3435,7 @@ function generateFinancialSuccessSystems(startPageNumber = 60) {
         </div>
         
         <div class="footer-wisdom" style="margin-top: 0.3rem;">The best time to plant a tree was 20 years ago. The second best time is now.</div>
-        <div class="page-number">061</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- PASSIVE INCOME STREAMS -->
@@ -3508,7 +3489,7 @@ function generateFinancialSuccessSystems(startPageNumber = 60) {
         </div>
         
         <div class="footer-wisdom" style="margin-top: 0.3rem;">Financial freedom is available to those who learn about it and work for it.</div>
-        <div class="page-number">062</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
@@ -3742,7 +3723,7 @@ function generateProductivityTimeMastery(startPageNumber = 132) {
         </div>
         
         <div class="footer-wisdom">You will never find time for anything. If you want time, you must make it.</div>
-        <div class="page-number">${currentPage}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- TASK MANAGEMENT -->
@@ -3811,7 +3792,7 @@ function generateProductivityTimeMastery(startPageNumber = 132) {
         </div>
         
         <div class="footer-wisdom">Schedule your priorities, not what's on your schedule.</div>
-        <div class="page-number">${currentPage + 1}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- ENERGY OPTIMIZATION -->
@@ -3862,7 +3843,7 @@ function generateProductivityTimeMastery(startPageNumber = 132) {
         </div>
         
         <div class="footer-wisdom" style="color: black;">Take care of your body. It's the only place you have to live.</div>
-        <div class="page-number">${currentPage + 2}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
@@ -4105,7 +4086,8 @@ const HISTORICAL_WISDOM = [
 ];
 
 // CHAPTER 1 STORYTELLING - VISION STORIES
-function generateChapter1Stories() {
+function generateChapter1Stories(startPageNumber = 12) {
+    let currentPage = startPageNumber;
     return `
     <!-- THE VISIONARY'S AWAKENING -->
     <div class="page" style="padding-top: 0.8rem;">
@@ -4132,7 +4114,7 @@ function generateChapter1Stories() {
         </div>
         
         <div class="footer-wisdom" style="padding: 0.4rem 0 0 0; font-size: 0.75rem; line-height: 1.2;">Vision without execution is hallucination. - Thomas Edison</div>
-        <div class="page-number" style="margin-top: 0.2rem;">017</div>
+        <div class="page-number" style="margin-top: 0.2rem;">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- THE PRICE OF GREATNESS -->
@@ -4156,12 +4138,13 @@ function generateChapter1Stories() {
         </div>
         
         <div class="footer-wisdom" style="padding: 0.4rem 0 0 0; font-size: 0.75rem; line-height: 1.2;">Champions are made from within.</div>
-        <div class="page-number" style="margin-top: 0.2rem;">018</div>
+        <div class="page-number" style="margin-top: 0.2rem;">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
 // CHAPTER 2 STORYTELLING - PLANNING STORIES
-function generateChapter2Stories() {
+function generateChapter2Stories(startPageNumber = 23) {
+    let currentPage = startPageNumber;
     return `
     <!-- THE STRATEGIST'S GAMBIT -->
     <div class="page">
@@ -4184,7 +4167,7 @@ function generateChapter2Stories() {
         </div>
         
         <div class="footer-wisdom" style="font-size: 0.8rem; margin-top: 0.6rem;">Strategy without tactics is the slowest route to victory. Tactics without strategy is the noise before defeat.</div>
-        <div class="page-number">034</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- THE COMPOUND EFFECT -->
@@ -4210,7 +4193,7 @@ function generateChapter2Stories() {
         </div>
         
         <div class="footer-wisdom">The first rule of compounding: Never interrupt it unnecessarily.</div>
-        <div class="page-number">035</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
@@ -4415,7 +4398,8 @@ function generateChapter3Stories(pageNumber, day) {
 }
 
 // CHAPTER 4 STORYTELLING - REVIEW STORIES
-function generateChapter4Stories() {
+function generateChapter4Stories(startPageNumber = 126) {
+    let currentPage = startPageNumber;
     return `
     <!-- THE MASTER'S REFLECTION -->
     <div class="page" style="padding: 0.3rem 0.8rem 0.5rem;">
@@ -4438,7 +4422,7 @@ function generateChapter4Stories() {
         </div>
         
         <div class="footer-wisdom" style="color: black;">Winter revealed my invincible summer within.</div>
-        <div class="page-number">172</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- THE TRANSFORMATION TRUTH -->
@@ -4461,12 +4445,13 @@ function generateChapter4Stories() {
         </div>
         
         <div class="footer-wisdom">Contemplation sows, action reaps.</div>
-        <div class="page-number">173</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
 // CHAPTER 5 STORYTELLING - LEGACY STORIES
-function generateChapter5Stories() {
+function generateChapter5Stories(startPageNumber = 132) {
+    let currentPage = startPageNumber;
     return `
     <!-- THE LEGACY BUILDER -->
     <div class="page">
@@ -4489,7 +4474,7 @@ function generateChapter5Stories() {
         </div>
         
         <div class="footer-wisdom">Purpose: usefulness, honor, compassion.</div>
-        <div class="page-number">180</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- THE MASTER'S JOURNEY -->
@@ -4512,7 +4497,7 @@ function generateChapter5Stories() {
         </div>
         
         <div class="footer-wisdom" style="color: black;">The expert in anything was once a beginner. - Helen Hayes</div>
-        <div class="page-number">181</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
@@ -4601,8 +4586,7 @@ function generateDecisionMakingRisk(startPageNumber = 221) {
             </div>
         </div>
         
-        <div class="footer-wisdom">"Know your enemy and yourself, win all battles." - Sun Tzu</div>
-        <div class="page-number">${currentPage}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     
@@ -4714,13 +4698,7 @@ function generateDecisionMakingRisk(startPageNumber = 221) {
         <div class="footer-wisdom" style="font-size: 0.65rem; color: var(--gold-light); padding: 0.3rem; background: rgba(0,0,0,0.12); border-radius: 2px; margin: 0.5rem 0 0.1rem; text-align: center; font-style: italic; line-height: 1.2;">
             "If it were easy, everyone would do it." — Charlie Munger
         </div>
-        <div class="page-number">${currentPage}</div>
-    </div>
-    
-    <!-- Strategic Risk Assessment content has been moved to the top of the page -->
-        
-        <div class="footer-wisdom">"Know your enemy and yourself, win all battles." - Sun Tzu</div>
-        <div class="page-number">${currentPage + 1}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
@@ -4747,7 +4725,7 @@ function generateCreativityInnovation(startPageNumber = 223) {
         </div>
         
         <div class="footer-wisdom">Innovation distinguishes leaders from followers.</div>
-        <div class="page-number">${currentPage}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- INNOVATION PROCESSES -->
@@ -4769,7 +4747,7 @@ function generateCreativityInnovation(startPageNumber = 223) {
         </div>
         
         <div class="footer-wisdom">Creativity is intelligence having fun.</div>
-        <div class="page-number">${currentPage + 1}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
@@ -4797,7 +4775,7 @@ function generateContributionLegacy(startPageNumber = 225) {
         </div>
         
         <div class="footer-wisdom">We make a living by what we get, but we make a life by what we give.</div>
-        <div class="page-number">${currentPage}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- MENTORSHIP FRAMEWORK -->
@@ -4820,12 +4798,13 @@ function generateContributionLegacy(startPageNumber = 225) {
         </div>
         
         <div class="footer-wisdom">The greatest leaders create more leaders.</div>
-        <div class="page-number">${currentPage + 1}</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 
 // ROBERT GREENE STRATEGIC WARFARE ENHANCEMENTS
-function generateStrategicWarfareSection() {
+function generateStrategicWarfareSection(startPageNumber = 23) {
+    let currentPage = startPageNumber;
     return `
     <!-- THE ENEMY WITHIN -->
     <div class="page" style="padding: 0.6rem 1rem;">
@@ -4834,7 +4813,7 @@ function generateStrategicWarfareSection() {
         
         <div style="background: rgba(212, 175, 55, 0.05); padding: 0.5rem; border-radius: 6px; border: 1px solid var(--gold); margin-bottom: 0.5rem;">
             <h3 style="color: var(--gold); font-size: 0.95rem; margin: 0 0 0.2rem 0; font-weight: 600;">⚔️ Know Your Enemy</h3>
-            <p style="color: var(--gray-light); font-size: 0.8rem; line-height: 1.3; margin: 0 0 0.3rem 0;">Sun Tzu said: "Know your enemy and yourself, win all battles." Your transformation has enemies - both internal and external. They will try to sabotage your progress. Identify them now.</p>
+            <p style="color: var(--gray-light); font-size: 0.8rem; line-height: 1.3; margin: 0 0 0.3rem 0;">Your transformation has enemies - both internal and external. They will try to sabotage your progress. Identify them now.</p>
             <p style="color: var(--gold-light); font-size: 0.9rem; line-height: 1.3; font-weight: 600; margin: 0;\">The enemy you don't see coming is the one that destroys you.</p>
         </div>
         
@@ -4869,7 +4848,7 @@ function generateStrategicWarfareSection() {
         </div>
         
         <div class="footer-wisdom">The enemy of my growth is my destruction.</div>
-        <div class="page-number">026</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- POWER DYNAMICS & SOCIAL WARFARE -->
@@ -4908,7 +4887,7 @@ function generateStrategicWarfareSection() {
         </div>
         
         <div class="footer-wisdom">The best way to destroy an enemy is to make him a friend. The second best is to make him irrelevant.</div>
-        <div class="page-number">027</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- FAILURE RECOVERY PROTOCOLS -->
@@ -4947,7 +4926,7 @@ function generateStrategicWarfareSection() {
         </div>
         
         <div class="footer-wisdom">The phoenix must burn to rise.</div>
-        <div class="page-number">028</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>
     
     <!-- THE DARK ARTS OF TRANSFORMATION -->
@@ -4986,7 +4965,7 @@ function generateStrategicWarfareSection() {
         </div>
         
         <div class="footer-wisdom">The lion does not concern himself with the opinions of sheep.</div>
-        <div class="page-number">029</div>
+        <div class="page-number">${String(currentPage++).padStart(3, '0')}</div>
     </div>`;
 }
 

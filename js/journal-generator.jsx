@@ -4627,7 +4627,7 @@ function generateStrategicWarfareSection() {
         
         <div style="background: rgba(212, 175, 55, 0.05); padding: 0.5rem; border-radius: 6px; border: 1px solid var(--gold); margin-bottom: 0.5rem;">
             <h3 style="color: var(--gold); font-size: 0.95rem; margin: 0 0 0.2rem 0; font-weight: 600;">⚔️ Know Your Enemy</h3>
-            <p style="color: var(--gray-light); font-size: 0.8rem; line-height: 1.3; margin: 0 0 0.3rem 0;">Sun Tzu said: "Know your enemy and yourself, win all battles." Your transformation has enemies - both internal and external. They will try to sabotage your progress. Identify them now.</p>
+            <p style="color: var(--gray-light); font-size: 0.8rem; line-height: 1.3; margin: 0 0 0.3rem 0;">Your transformation has enemies - both internal and external. They will try to sabotage your progress. Identify them now.</p>
             <p style="color: var(--gold-light); font-size: 0.9rem; line-height: 1.3; font-weight: 600; margin: 0;\">The enemy you don't see coming is the one that destroys you.</p>
         </div>
         
