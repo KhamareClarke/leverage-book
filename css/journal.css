@@ -209,6 +209,10 @@
     counter-increment: page;
 }
 
+@page :first {
+    margin: 0 !important;
+}
+
 /* RESET & BASE STYLES */
 * {
     margin: 0;
@@ -259,14 +263,39 @@ body {
 
 /* Cover pages keep dark styling */
 .page.cover-page {
-    background: var(--black);
+    background: var(--black) !important;
     color: var(--white);
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* Title page styling - ensure all text is white */
 .page.title-page {
     background: var(--black) !important;
     color: var(--white) !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    width: 148mm !important;
+    height: 210mm !important;
+}
+
+/* Title page should have black background edge-to-edge, content centered with internal spacing */
+.page.title-page.flex {
+    padding: 0 !important;
+    margin: 0 auto !important;
+    box-sizing: border-box;
+}
+
+/* Add internal padding wrapper for title page content */
+.page.title-page.flex::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--black);
+    z-index: -1;
 }
 
 .page.title-page *,
@@ -566,6 +595,21 @@ p {
     padding: 2px 4px;
 }
 
+/* Hide page numbers on cover/title pages - AGGRESSIVE */
+.page.title-page .page-number,
+.page.cover-page .page-number,
+.page.title-page [class*="page-number"],
+.page.cover-page [class*="page-number"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
 .page-number::before {
     content: none !important;
 }
@@ -760,7 +804,7 @@ p {
     }
     
     @page :first {
-        margin-top: 15mm;
+        margin: 0 !important;
         @top-center { content: none; }
         @bottom-right { content: none; }
     }
@@ -1164,9 +1208,13 @@ p {
 
 /* TITLE PAGE STYLES */
 .title-page {
-    background: linear-gradient(135deg, var(--black) 0%, var(--black-card) 100%);
+    background: var(--black) !important;
+    background-color: var(--black) !important;
+    background-image: none !important;
     text-align: center;
     position: relative;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .title-page h1 {
